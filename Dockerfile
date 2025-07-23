@@ -1,10 +1,8 @@
 FROM node:22-alpine 
 
-WORKDIR /app
+WORKDIR /usr/app
 
-# COPY ./ /usr/app
-COPY package.json package-lock.json ./
-COPY . .
+COPY ./ /usr/app
 
 RUN npm ci --production
 
