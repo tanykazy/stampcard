@@ -1,0 +1,96 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>授業の情報</mat-card-title>
+        <mat-card-subtitle></mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+        <mat-form-field class="full-width-field">
+            <mat-label>対象の学年</mat-label>
+            <mat-select name="grade" [(ngModel)]="grade" (selectionChange)="onChangeGrade($event)">
+                <mat-option value="小学校1年生">小1</mat-option>
+                <mat-option value="小学校2年生">小2</mat-option>
+                <mat-option value="小学校3年生">小3</mat-option>
+                <mat-option value="小学校4年生">小4</mat-option>
+                <mat-option value="小学校5年生">小5</mat-option>
+                <mat-option value="小学校6年生">小6</mat-option>
+                <mat-option value="中学校1年生">中1</mat-option>
+                <mat-option value="中学校2年生">中2</mat-option>
+                <mat-option value="中学校3年生">中3</mat-option>
+                <mat-option value="高等学校1年生">高1</mat-option>
+                <mat-option value="高等学校2年生">高2</mat-option>
+                <mat-option value="高等学校3年生">高3</mat-option>
+                <mat-option value="その他">その他</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="full-width-field">
+            <mat-label>教科</mat-label>
+            <input matInput placeholder="" (input)="onInputSubject($event)" [(ngModel)]="subject">
+        </mat-form-field>
+
+        <mat-form-field class="full-width-field">
+            <mat-label>授業の目標</mat-label>
+            <textarea matInput [(ngModel)]="note"></textarea>
+        </mat-form-field>
+    </mat-card-content>
+</mat-card>
+
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>観察の視点</mat-card-title>
+        <mat-card-subtitle></mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+        <mat-form-field class="full-width-field">
+            <mat-label>{{label}}</mat-label>
+            <mat-chip-grid #chipGrid cdkDropList [cdkDropListAutoScrollDisabled]="true"
+                cdkDropListOrientation="vertical" (cdkDropListDropped)="drop($event)">
+                @for (name of names; track $index) {
+                <mat-chip-row class="chip-row" cdkDrag (removed)="remove(name)" [editable]="true"
+                    (edited)="edit(name, $event)">
+                    <span>{{name}}</span>
+                    <button matChipRemove>
+                        <mat-icon>cancel</mat-icon>
+                    </button>
+                </mat-chip-row>
+                }
+            </mat-chip-grid>
+            <input [placeholder]="placeholder" [matChipInputFor]="chipGrid"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+                (matChipInputTokenEnd)="add($event)" />
+        </mat-form-field>
+    </mat-card-content>
+
+    <mat-card-actions align="end">
+        <button mat-icon-button (click)="onClickCopyButton($event)">
+            <mat-icon>content_copy</mat-icon>
+        </button>
+    </mat-card-actions>
+</mat-card>
+
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Gemini 設定</mat-card-title>
+        <mat-card-subtitle></mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+        <mat-form-field class="full-width-field">
+            <mat-label>プロンプト</mat-label>
+            <textarea matInput placeholder="プロンプトを入力する" (input)="onInputPrompt($event)" [(ngModel)]="prompt"></textarea>
+            <mat-hint>
+                &lt;&lt;grade&gt;&gt;
+                &lt;&lt;subject&gt;&gt;
+                &lt;&lt;note&gt;&gt;
+            </mat-hint>
+        </mat-form-field>
+    </mat-card-content>
+
+    <mat-card-actions align="end">
+        <mat-slide-toggle [(ngModel)]="recordeAudio" labelPosition="before" (change)="onChangeRecordAudio($event)">
+            録音
+        </mat-slide-toggle>
+    </mat-card-actions>
+</mat-card>

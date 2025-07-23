@@ -1,0 +1,69 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>{{title}}</span>
+
+    <div class="spacer"></div>
+
+    @if (recorderService.isAudioAvailable) {
+    <mat-icon color="accent">mic</mat-icon>
+    }
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-sidenav-container>
+  <mat-sidenav>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-stepper [selectedIndex]="selectedIndex" (selectionChange)="onSelectionChange($event)" #stepper>
+
+      <mat-step [completed]="buttonset.length > 0" [editable]="isButtonEditable">
+        <ng-template matStepLabel>
+          <span>設定</span>
+        </ng-template>
+        <app-inputmore label="ボタンの名前" placeholder="例: グループ活動" [(names)]="buttonset"></app-inputmore>
+        <div class="step-button-row">
+          <button mat-button color="primary" matStepperNext (click)="onClickStartRecording($event)">
+            記録を開始
+          </button>
+        </div>
+      </mat-step>
+
+      <mat-step>
+        <ng-template matStepLabel>
+          <span>記録</span>
+        </ng-template>
+        <app-buttonset [buttonset]="buttonset" (clickButtonset)="onClickButtonset($event)"
+          [multiple]="false"></app-buttonset>
+        <div class="step-button-row">
+          <button mat-button matStepperPrevious [disabled]="!isButtonEditable">
+            戻る
+          </button>
+          <button mat-button color="primary" matStepperNext (click)="onClickStopRecording($event)">
+            記録を終了
+          </button>
+        </div>
+      </mat-step>
+
+      <mat-step [editable]="false">
+        <ng-template matStepLabel>
+          <span>結果</span>
+        </ng-template>
+        <app-kokuban-chart [data]="treeData"></app-kokuban-chart>
+        <div class="step-button-row">
+          <button mat-button matStepperPrevious>
+            戻る
+          </button>
+        </div>
+      </mat-step>
+
+    </mat-stepper>
+
+    @if (!recorderService.isAudioAvailable) {
+    <input placeholder="For Debug" type="file" accept="audio/*" (change)="onChangeFile($event)" />
+    }
+
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<router-outlet></router-outlet>
