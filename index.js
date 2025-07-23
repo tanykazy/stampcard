@@ -7,9 +7,9 @@ app.use(express.static("dist/stampcard"));
 //     res.redirect('/');
 // });
 
-// app.listen(8080);
+app.listen(8080);
 
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
-    console.log(`Server listening on port ${PORT}`);
-});
+// const PORT = process.env.PORT || 8080;
+// app.listen(PORT, () => {
+//     console.log(`Server listening on port ${PORT}`);
+// });
