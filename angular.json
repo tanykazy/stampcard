@@ -27,7 +27,9 @@
             "styles": [
               "src/custom-theme.scss",
               "src/styles.css"
-            ]
+            ],
+            "outputPath": "dist/stampcard",
+            "index": "src/index.html"
           },
           "configurations": {
             "production": {
